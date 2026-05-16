@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Perfect Band Dress Code</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #ffffff;
+            --accent-color: #007aff;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            padding-bottom: 120px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #8e8e93;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .category {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .category-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #2c2c2e;
+            padding-bottom: 5px;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .option-card {
+            flex: 1;
+            min-width: 100px;
+            background: #2c2c2e;
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .option-card.selected {
+            border-color: var(--accent-color);
+            background: #3a3a3c;
+        }
+        
+        /* Контейнер та магічні фільтри для ваших іконок */
+        .icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon img {
+            width: 32px;
+            height: 32px;
+            object-fit: contain;
+        }
+        
+        /* Перетворює будь-яку іконку на чисто білу з легким свіченням */
+        .white-item .icon img { 
+            filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(255,255,255,0.2)); 
+        }
+        /* Перетворює будь-яку іконку на темно-сіру/чорну з білим контуром */
+        .black-item .icon img { 
+            filter: brightness(0) invert(0.2) drop-shadow(0 0 1px #fff) drop-shadow(0 2px 4px rgba(0,0,0,0.6)); 
+        }
+        /* Стиль для аксесуарів за замовчуванням (світло-сірі) */
+        .accent-item .icon img {
+            filter: brightness(0) invert(0.9);
+        }
+        /* Коли аксесуар вибрано — фарбуємо його у синій колір */
+        .option-card.selected.accent-item .icon img {
+            filter: invert(34%) sepia(87%) saturate(5801%) hue-rotate(210deg) brightness(101%) contrast(105%);
+        }
+
+        .label {
+            font-size: 13px;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+        
+        .action-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 20px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.5);
+            display: flex;
+            gap: 10px;
+            border-top: 1px solid #2c2c2e;
+            z-index: 900;
+        }
+        button {
+            flex: 1;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        #toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: #34c759;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        #toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast">📋 Конфігурацію скопійовано!</div>
+
+    <h1>Perfect Band Dress Code</h1>
+    <div class="subtitle">Вибери лук для гурту</div>
+
+    <div class="category" data-cat="Піджак">
+        <div class="category-title">Піджак</div>
+        <div class="options">
+            <div class="option-card white-item selected" onclick="selectSingle(this, 'Білий піджак')">
+                <div class="icon">
+                    <img src="jacket.png" alt="Піджак">
+                </div>
+                <div class="label">Білий</div>
+            </div>
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорний піджак')">
+                <div class="icon">
+                    <img src="jacket.png" alt="Піджак">
+                </div>
+                <div class="label">Чорний</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category" data-cat="Сорочка">
+        <div class="category-title">Сорочка</div>
+        <div class="options">
+            <div class="option-card white-item selected" onclick="selectSingle(this, 'Біла сорочка')">
+                <div class="icon">
+                    <img src="shirt.png" alt="Сорочка">
+                </div>
+                <div class="label">Біла</div>
+            </div>
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорна сорочка')">
+                <div class="icon">
+                    <img src="shirt.png" alt="Сорочка">
+                </div>
+                <div class="label">Чорна</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category" data-cat="Штани">
+        <div class="category-title">Штани</div>
+        <div class="options">
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі штани')">
+                <div class="icon">
+                    <img src="trousers.png" alt="Штани">
+                </div>
+                <div class="label">Білі</div>
+            </div>
+            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні штани')">
+                <div class="icon">
+                    <img src="trousers.png" alt="Штани">
+                </div>
+                <div class="label">Чорні</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category" data-cat="Взуття">
+        <div class="category-title">Взуття</div>
+        <div class="options">
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі туфлі')">
+                <div class="icon">
+                    <img src="shoes.png" alt="Туфлі">
+                </div>
+                <div class="label">Білі туфлі</div>
+            </div>
+            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні туфлі')">
+                <div class="icon">
+                    <img src="shoes.png" alt="Туфлі">
+                </div>
+                <div class="label">Чорні туфлі</div>
+            </div>
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі кеди')">
+                <div class="icon">
+                    <img src="sneakers.png" alt="Кеди">
+                </div>
+                <div class="label">Білі кеди</div>
+            </div>
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорні кеди')">
+                <div class="icon">
+                    <img src="sneakers.png" alt="Кеди">
+                </div>
+                <div class="label">Чорні кеди</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="category" data-cat="Аксесуари">
+        <div class="category-title">Аксесуари (можна декілька)</div>
+        <div class="options">
+            <div class="option-card accent-item" data-val="Метелик" onclick="toggleMulti(this)">
+                <div class="icon">
+                    <img src="bowtie.png" alt="Метелик">
+                </div>
+                <div class="label">Метелик</div>
+            </div>
+            <div class="option-card accent-item" data-val="Краватка" onclick="toggleMulti(this)">
+                <div class="icon">
+                    <img src="tie.png" alt="Краватка">
+                </div>
+                <div class="label">Краватка</div>
+            </div>
+            <div class="option-card accent-item" data-val="Окуляри" onclick="toggleMulti(this)">
+                <div class="icon">
+                    <img src="glasses.png" alt="Окуляри">
+                </div>
+                <div class="label">Окуляри</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="action-panel">
+        <button onclick="copyToClipboard()">📋 Скопіювати дрес-код</button>
+    </div>
+
+    <script>
+        let currentSelection = {
+            "Піджак": "Білий піджак",
+            "Сорочка": "Біла сорочка",
+            "Штани": "Чорні штани",
+            "Взуття": "Чорні туфлі"
+        };
+        
+        let selectedAccessories = new Set();
+
+        function selectSingle(element, text) {
+            const parent = element.parentElement;
+            const categoryTitle = parent.parentElement.getAttribute('data-cat');
+            
+            parent.querySelectorAll('.option-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            currentSelection[categoryTitle] = text;
+        }
+
+        function toggleMulti(element) {
+            const val = element.getAttribute('data-val');
+            if (selectedAccessories.has(val)) {
+                selectedAccessories.delete(val);
+                element.classList.remove('selected');
+            } else {
+                selectedAccessories.add(val);
+                element.classList.add('selected');
+            }
+        }
+
+        function copyToClipboard() {
+            let textToCopy = "🎵 *Дрес-код на виступ:* 🎵\n\n";
+            
+            for (const [key, value] of Object.entries(currentSelection)) {
+                textToCopy += `▪️ ${value}\n`;
+            }
+            
+            if (selectedAccessories.size > 0) {
+                const accList = Array.from(selectedAccessories).join(', ');
+                textToCopy += `▪️ Аксесуари: ${accList}\n`;
+            }
+            
+            const el = document.createElement('textarea');
+            el.value = textToCopy;
+            el.setAttribute('readonly', '');
+            el.style.position = 'absolute';
+            el.style.left = '-9999px';
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
