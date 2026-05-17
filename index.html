@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Perfect Band Dress Code</title>
+    <title>Cover Band Dress Code</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -71,7 +71,6 @@
             background: #3a3a3c;
         }
         
-        /* Контейнер та магічні фільтри для ваших іконок */
         .icon {
             width: 32px;
             height: 32px;
@@ -83,21 +82,18 @@
             width: 32px;
             height: 32px;
             object-fit: contain;
+            border-radius: 4px; 
         }
         
-        /* Перетворює будь-яку іконку на чисто білу з легким свіченням */
         .white-item .icon img { 
             filter: brightness(0) invert(1) drop-shadow(0 2px 4px rgba(255,255,255,0.2)); 
         }
-        /* Перетворює будь-яку іконку на темно-сіру/чорну з білим контуром */
         .black-item .icon img { 
             filter: brightness(0) invert(0.2) drop-shadow(0 0 1px #fff) drop-shadow(0 2px 4px rgba(0,0,0,0.6)); 
         }
-        /* Стиль для аксесуарів за замовчуванням (світло-сірі) */
         .accent-item .icon img {
             filter: brightness(0) invert(0.9);
         }
-        /* Коли аксесуар вибрано — фарбуємо його у синій колір */
         .option-card.selected.accent-item .icon img {
             filter: invert(34%) sepia(87%) saturate(5801%) hue-rotate(210deg) brightness(101%) contrast(105%);
         }
@@ -156,19 +152,19 @@
 
     <div id="toast">📋 Конфігурацію скопійовано!</div>
 
-    <h1>Perfect Band Dress Code</h1>
-    <div class="subtitle">Вибери лук для гурту</div>
+    <h1>Band Dress Code</h1>
+    <div class="subtitle">Склади свій лук для виступу</div>
 
     <div class="category" data-cat="Піджак">
         <div class="category-title">Піджак</div>
         <div class="options">
-            <div class="option-card white-item selected" onclick="selectSingle(this, 'Білий піджак')">
+            <div class="option-card white-item selected" onclick="selectSingle(this, 'Білий піджак', 'white')">
                 <div class="icon">
                     <img src="jacket.png" alt="Піджак">
                 </div>
                 <div class="label">Білий</div>
             </div>
-            <div class="option-card black-item" onclick="selectSingle(this, 'Чорний піджак')">
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорний піджак', 'black')">
                 <div class="icon">
                     <img src="jacket.png" alt="Піджак">
                 </div>
@@ -177,20 +173,32 @@
         </div>
     </div>
 
-    <div class="category" data-cat="Сорочка">
-        <div class="category-title">Сорочка</div>
+    <div class="category" data-cat="Під піджак">
+        <div class="category-title">Під піджак</div>
         <div class="options">
-            <div class="option-card white-item selected" onclick="selectSingle(this, 'Біла сорочка')">
+            <div class="option-card white-item selected" onclick="selectSingle(this, 'Біла сорочка', 'white')">
                 <div class="icon">
                     <img src="shirt.png" alt="Сорочка">
                 </div>
-                <div class="label">Біла</div>
+                <div class="label">Біла сорочка</div>
             </div>
-            <div class="option-card black-item" onclick="selectSingle(this, 'Чорна сорочка')">
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорна сорочка', 'black')">
                 <div class="icon">
                     <img src="shirt.png" alt="Сорочка">
                 </div>
-                <div class="label">Чорна</div>
+                <div class="label">Чорна сорочка</div>
+            </div>
+            <div class="option-card white-item" onclick="selectSingle(this, 'Біла футболка', 'white')">
+                <div class="icon">
+                    <img src="tshirt.png" alt="Футболка">
+                </div>
+                <div class="label">Біла футболка</div>
+            </div>
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорна футболка', 'black')">
+                <div class="icon">
+                    <img src="tshirt.png" alt="Футболка">
+                </div>
+                <div class="label">Чорна футболка</div>
             </div>
         </div>
     </div>
@@ -198,13 +206,13 @@
     <div class="category" data-cat="Штани">
         <div class="category-title">Штани</div>
         <div class="options">
-            <div class="option-card white-item" onclick="selectSingle(this, 'Білі штани')">
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі штани', 'white')">
                 <div class="icon">
                     <img src="trousers.png" alt="Штани">
                 </div>
                 <div class="label">Білі</div>
             </div>
-            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні штани')">
+            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні штани', 'black')">
                 <div class="icon">
                     <img src="trousers.png" alt="Штани">
                 </div>
@@ -216,25 +224,25 @@
     <div class="category" data-cat="Взуття">
         <div class="category-title">Взуття</div>
         <div class="options">
-            <div class="option-card white-item" onclick="selectSingle(this, 'Білі туфлі')">
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі туфлі', 'white')">
                 <div class="icon">
                     <img src="shoes.png" alt="Туфлі">
                 </div>
                 <div class="label">Білі туфлі</div>
             </div>
-            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні туфлі')">
+            <div class="option-card black-item selected" onclick="selectSingle(this, 'Чорні туфлі', 'black')">
                 <div class="icon">
                     <img src="shoes.png" alt="Туфлі">
                 </div>
                 <div class="label">Чорні туфлі</div>
             </div>
-            <div class="option-card white-item" onclick="selectSingle(this, 'Білі кеди')">
+            <div class="option-card white-item" onclick="selectSingle(this, 'Білі кеди', 'white')">
                 <div class="icon">
-                    <img src="sneakers.png" alt="Кеди">
+                    <img src="sneakers.png" alt="Kеди">
                 </div>
                 <div class="label">Білі кеди</div>
             </div>
-            <div class="option-card black-item" onclick="selectSingle(this, 'Чорні кеди')">
+            <div class="option-card black-item" onclick="selectSingle(this, 'Чорні кеди', 'black')">
                 <div class="icon">
                     <img src="sneakers.png" alt="Кеди">
                 </div>
@@ -273,15 +281,15 @@
 
     <script>
         let currentSelection = {
-            "Піджак": "Білий піджак",
-            "Сорочка": "Біла сорочка",
-            "Штани": "Чорні штани",
-            "Взуття": "Чорні туфлі"
+            "Піджак": { text: "Білий піджак", color: "white" },
+            "Під піджак": { text: "Біла сорочка", color: "white" },
+            "Штани": { text: "Чорні штани", color: "black" },
+            "Взуття": { text: "Чорні туфлі", color: "black" }
         };
         
         let selectedAccessories = new Set();
 
-        function selectSingle(element, text) {
+        function selectSingle(element, text, colorType) {
             const parent = element.parentElement;
             const categoryTitle = parent.parentElement.getAttribute('data-cat');
             
@@ -290,7 +298,7 @@
             });
             
             element.classList.add('selected');
-            currentSelection[categoryTitle] = text;
+            currentSelection[categoryTitle] = { text: text, color: colorType };
         }
 
         function toggleMulti(element) {
@@ -307,13 +315,15 @@
         function copyToClipboard() {
             let textToCopy = "🎵 *Дрес-код на виступ:* 🎵\n\n";
             
-            for (const [key, value] of Object.entries(currentSelection)) {
-                textToCopy += `▪️ ${value}\n`;
+            for (const [key, item] of Object.entries(currentSelection)) {
+                // Фікс: Використовуємо великий чорний квадрат ◼️ замінюючи маленький, щоб розміри були ідентичними
+                const square = item.color === 'white' ? '◻️' : '◼️';
+                textToCopy += `${square} ${item.text}\n`;
             }
             
             if (selectedAccessories.size > 0) {
                 const accList = Array.from(selectedAccessories).join(', ');
-                textToCopy += `▪️ Аксесуари: ${accList}\n`;
+                textToCopy += `◼️ Аксесуари: ${accList}\n`;
             }
             
             const el = document.createElement('textarea');
